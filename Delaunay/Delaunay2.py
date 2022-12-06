@@ -122,46 +122,6 @@ print("DELAUNAY TRIANGLES")
 for i in delaunay:
     print(f"[{i.a.x},{i.a.y}] [{i.b.x},{i.b.y}] [{i.c.x},{i.c.y}]")
 
-
-#######CONVERT TO VORONOI#######
-"""
-def calcOutLine(edge, voronoiLines, centreOfGraph, circumcentre):
-    if edge.b.y == edge.a.y:
-        gradOfLine = 999999999
-    else:
-        gradOfLine = -1 * ((edge.b.x - edge.a.x)/(edge.b.y - edge.a.y))
-    
-    if centreOfGraph.x > circumcentre.x:
-        phantomPointX = -5000000
-    else:
-        phantomPointX = 5000000
-    
-    phantomPointY = (gradOfLine * (phantomPointX - circumcentre.x)) + circumcentre.y
-    outLine = Edge(circumcentre, Point(phantomPointX, phantomPointY))
-    voronoiLines.append(outLine)
-    return voronoiLines
-
-def calcOutLine(edge, voronoiLines, circumcentre):
-    if edge.b.y == edge.a.y:
-        gradOfLine = 999999999
-    else:
-        gradOfLine = -1 * ((edge.b.x - edge.a.x)/(edge.b.y - edge.a.y))
-    
-    if circumcentre.x > ((edge.a.x + edge.b.x) / 2):
-        if gradOfLine > 0:
-            phantomPointX = 5000000
-        else:
-            phantomPointX = 5000000
-    else:
-        if gradOfLine > 0:
-            phantomPointX = -5000000
-        else:
-            phantomPointX = -5000000
-    phantomPointY = (gradOfLine * (phantomPointX - circumcentre.x)) + circumcentre.y
-    outLine = Edge(circumcentre, Point(phantomPointX, phantomPointY))
-    voronoiLines.append(outLine)
-    return voronoiLines
-"""
 centreOfGraphX = 0
 centreOfGraphY = 0
 for point in points:
@@ -176,26 +136,6 @@ for triangle in delaunay:
             if checkEdgeEquality(triangle.edges[0], tri.edges[0]) or checkEdgeEquality(triangle.edges[0], tri.edges[1]) or checkEdgeEquality(triangle.edges[0], tri.edges[2]) or checkEdgeEquality(triangle.edges[1], tri.edges[0]) or checkEdgeEquality(triangle.edges[1], tri.edges[1]) or checkEdgeEquality(triangle.edges[1], tri.edges[2]) or checkEdgeEquality(triangle.edges[2], tri.edges[0]) or checkEdgeEquality(triangle.edges[2], tri.edges[1]) or checkEdgeEquality(triangle.edges[2], tri.edges[2]):
                 voronoiLines.append(Edge(triangle.circumcircle.centre, tri.circumcircle.centre))
                 
-    #get outer lines
-    """
-    edge0Found = False
-    edge1Found = False
-    edge2Found = False
-    for tri in delaunay:
-        if triangle != tri:
-            if checkEdgeEquality(triangle.edges[0], tri.edges[0]) or checkEdgeEquality(triangle.edges[0], tri.edges[1]) or checkEdgeEquality(triangle.edges[0], tri.edges[2]):
-                edge0Found = True
-            elif checkEdgeEquality(triangle.edges[1], tri.edges[0]) or checkEdgeEquality(triangle.edges[1], tri.edges[1]) or checkEdgeEquality(triangle.edges[1], tri.edges[2]):
-                edge1Found = True
-            elif checkEdgeEquality(triangle.edges[2], tri.edges[0]) or checkEdgeEquality(triangle.edges[2], tri.edges[1]) or checkEdgeEquality(triangle.edges[2], tri.edges[2]):
-                edge2Found = True
-    if not edge0Found:
-        voronoiLines = calcOutLine(triangle.edges[0], voronoiLines, triangle.circumcircle.centre)
-    if not edge1Found:
-        voronoiLines = calcOutLine(triangle.edges[1], voronoiLines, triangle.circumcircle.centre)
-    if not edge2Found:
-        voronoiLines = calcOutLine(triangle.edges[2], voronoiLines, triangle.circumcircle.centre)
-    """
     
 #remove duplicates
 for line in voronoiLines[:]:
@@ -209,32 +149,3 @@ print("VORONOI LINES")
 for i in voronoiLines:
     print("Segment((", i.a.x, ",", i.a.y, "),(", i.b.x, ",", i.b.y, "))")
 
-
-supertriangle = Triangle(Point(-100000,-1000000), Point(0,1000000), Point(1000000,-1000000)) #bloody massive
-points = [Point(3,6), Point(9,12), Point(19,3), Point(4,22), Point(9,15)]
-delaunay = genDelaunay(points, supertriangle)
-centreOfGraphX = 0
-centreOfGraphY = 0
-for point in points:
-    centreOfGraphX += point.x
-    centreOfGraphY += point.y
-centreOfGraph = Point(point.x/len(points), point.y/len(points))
-
-voronoiLines = []
-for triangle in delaunay:
-    for tri in delaunay:
-        if triangle != tri:
-            if checkEdgeEquality(triangle.edges[0], tri.edges[0]) or checkEdgeEquality(triangle.edges[0], tri.edges[1]) or checkEdgeEquality(triangle.edges[0], tri.edges[2]) or checkEdgeEquality(triangle.edges[1], tri.edges[0]) or checkEdgeEquality(triangle.edges[1], tri.edges[1]) or checkEdgeEquality(triangle.edges[1], tri.edges[2]) or checkEdgeEquality(triangle.edges[2], tri.edges[0]) or checkEdgeEquality(triangle.edges[2], tri.edges[1]) or checkEdgeEquality(triangle.edges[2], tri.edges[2]):
-                voronoiLines.append(Edge(triangle.circumcircle.centre, tri.circumcircle.centre))
-#remove duplicates
-for line in voronoiLines[:]:
-    for l in voronoiLines[:]:
-        if line != l:
-            if (line.a == l.a and line.b == l.b) or (line.a == l.b and line.b == l.a):
-                voronoiLines.remove(line)
-
-
-print("VORONOI LINES")
-for i in voronoiLines:
-    print("Segment((", i.a.x, ",", i.a.y, "),(", i.b.x, ",", i.b.y, "))")
-input()
