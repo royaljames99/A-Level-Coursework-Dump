@@ -1,11 +1,6 @@
 import math
 import copy
 
-#http://paul-reed.co.uk/fortune.htm
-#http://paul-reed.co.uk/fortune.htm#findoccuranceofregion
-#http://paul-reed.co.uk/fortune.htm#findycoord
-#http://paul-reed.co.uk/fortune.htm#calctwoedgeintersection
-
 class Point():#(x,y) point in 2D space
     def __init__(self, x, y):
         self.x = x
@@ -312,7 +307,6 @@ def getCircumcentreFrom3Arcs(Arcs):
     return centre
 
 def checkNewCircleEvents(sweep, index, queue, subEvent = False):
-    #doing it my way
     #to the left
     if index - 1>= 1:
         arcs = sweep.arcs[index - 2:index + 1]
@@ -358,11 +352,7 @@ minX = -50
 maxX = 50
 leftMostEdge = Edge(Point(minX, -50), (0,1), vertical = True)
 rightMostEdge = Edge(Point(maxX, -50), (0,1), vertical = True)
-#points = [Point(3,6), Point(9,12), Point(19,3), Point(4,22), Point(9,15)]
 points = [Point(0,0), Point(5,5), Point(0,12), Point(6,15)]
-#points = [Point(7,11), Point(1,1), Point(4,4), Point(0.5,20), Point(9,3), Point(-2,9)]
-#points = [Point(0,0), Point(-1,1), Point(1,1), Point(2,0)]
-#points = [Point(0,0), Point(2,0)]
 points = orderPoints(points)
 queue = Queue()
 
